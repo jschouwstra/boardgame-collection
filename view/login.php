@@ -1,6 +1,6 @@
 <?php
 require "connection.php";
-$auth = new Auth($db);
+$auth = new User($db);
 $auth->redirectWithSession();
 
 // if(isset($_SESSION['username'])){

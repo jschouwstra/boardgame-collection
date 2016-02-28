@@ -25,27 +25,46 @@ class Game {
 		$result = $query->fetchAll();
 		return $result;
 	}
-	public function getAllCategory(){
-		$this->db;
-		$sql = "SELECT TBL_Category.* FROM TBL_Game, JTBL_Game_Category,TBL_Category
-		WHERE 
-		TBL_Category.ID = 	JTBL_Game_Category.Category_ID AND
-		TBL_Game.ID 	= 	JTBL_Game_Category.Game_ID";
+	public function getCategory($db){
 
-		$query = $this->db->prepare($sql);
-		$query->execute();
-		$result = $query->fetchAll();
-		return $result;
 	}	
 
 	public function editById($ID){
-		$this->db;
-		$Name = "new stuff";
-		$sql = "UPDATE TBL_Game SET Name=? WHERE ID=?";
-		$statement = $db->prepare($sql);
-		$statement->execute(array($Name,$ID));
 	
 	}
+
+	public function newGame($db,$User_ID,$Game_Name){
+		//Create new game and attach it to current user.
+		$sql = "INSERT INTO TBL_Game 
+		(Name,User_ID)
+		VALUES 
+		('$Game_Name','$User_ID')";
+		$db->query($sql);
+		header("location: index.php?view=manage-games"); // Redirecting To Other Page
+
+	}	
+
+	public function getAllGames($db,$User_ID) {	
+        // $sql="
+        //     SELECT TBL_Game.* 
+        //     FROM TBL_Game, JTBL_Game_User,TBL_User
+        //     WHERE 
+        //     	TBL_Game.ID = JTBL_Game_User.Game_ID
+        //     AND 
+        //     	TBL_User.ID = JTBL_Game_User.User_ID
+
+        //     AND TBL_User.ID = '$User_ID';
+        // ";
+        $sql="
+            SELECT Name, User_ID 
+            FROM ".self::TABLENAME."
+            WHERE 
+            	TBL_Game.User_ID = '$User_ID';
+        ";        
+        $result = $db->query($sql);
+        return $result;   
+
+	}	
 
 }
 

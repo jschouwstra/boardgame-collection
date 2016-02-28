@@ -1,8 +1,7 @@
 <?php
-class Auth {
+class User {
 	private $db;
-	const tableName = "users";
-
+	const TABLENAME = "TBL_Game";
 	public function __construct($db){
 		$this->db = $db;
 	}
@@ -43,8 +42,6 @@ class Auth {
 	        $_SESSION['ID'] = $row['ID'];
 	        $view = "home";
 	         header("location: index.php?view=dashboard"); // Redirecting To Other Page
-	        //$auth->redirectWithSession();
-
 	      }
 	      //If incorrect username or password
 	      else {
@@ -52,5 +49,29 @@ class Auth {
 	      }
 	    }
 	}
+
+	//Get all this User's Games
+	public function getAllGames($db,$User_ID) {	
+        // $sql="
+        //     SELECT TBL_Game.* 
+        //     FROM TBL_Game, JTBL_Game_User,TBL_User
+        //     WHERE 
+        //     	TBL_Game.ID = JTBL_Game_User.Game_ID
+        //     AND 
+        //     	TBL_User.ID = JTBL_Game_User.User_ID
+
+        //     AND TBL_User.ID = '$User_ID';
+        // ";
+        $sql="
+            SELECT Name, User_ID 
+            FROM ".self::TABLENAME."
+            WHERE 
+            	TBL_Game.User_ID = '$User_ID';
+        ";        
+        $result = $db->query($sql);
+        return $result;   
+
+	}
+
 }
 ?>

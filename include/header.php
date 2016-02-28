@@ -2,7 +2,9 @@
 ob_start();
 error_reporting(E_ALL ^ E_NOTICE);
 require "connection.php";
-require_once "model/Auth.php";
+require_once "model/User.php";
+require_once "model/Game.php";
+require_once "model/Category.php";
 
 ?>
 <!DOCTYPE html>
